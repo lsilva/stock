@@ -1,0 +1,46 @@
+<h1><?php echo $this->translate->translate("teste"); ?></h1>
+<?php
+    $form = ""; 
+    $response = $this->response;
+    
+    $form.= "<form id='frmDados' name='frmDados' method='{$this->method}' action='{$this->action}'>";
+    $form.= "   <ul class='form'>";
+    foreach($response as $input)
+    {
+        $input = html_entity_decode($input);
+        $name_input = getElement($input, "name");
+        $type_input = getElement($input, "type");
+        if(!in_array($type_input, array("button","submit","hidden")))
+            $form.= "<li class='label'><label>" . $this->translate->translate($name_input) . "</label></li>";
+        $form.= "<li class='input'>{$input}</li>";        
+    }
+    $form.= "   </ul>";
+    $form.= "<form>";
+    echo $form;  
+
+echo <<<JAVASCRIPT
+<script type="text/javascript">
+    sendRequest("GET",path_url_api + "/unidade/",null,function(data){
+        options = new Array(); 
+        for(i in data) 
+            options.push("<option value='"+data[i].id+"'>"+data[i].nome+"</option>"); 
+        $("#unidade_id").html(options.join('\\n'));
+    });
+    sendRequest("GET",path_url_api + "/marca/",null,function(data){
+        options = new Array(); 
+        for(i in data) 
+            options.push("<option value='"+data[i].id+"'>"+data[i].titulo+"</option>"); 
+        $("#marca_id").html(options.join('\\n'));
+    });
+</script>
+JAVASCRIPT;
+
+function getElement($input, $element)
+{
+    $pos_id = strpos($input,$element);  
+    $pos_asp = strpos($input,"\"",$pos_id);
+    $pos_asp2 = strpos($input,"\"",$pos_asp+1);
+    $id = substr($input,$pos_asp + 1,$pos_asp2-$pos_asp - 1);
+    return $id;
+}          
+?>      

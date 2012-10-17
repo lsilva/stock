@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/rest.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/maskFormat.js"></script>
+<!-- <link type="text/css" href="<?php echo BASE_URL?>/public/css/jquery.multiselect.filter.css" rel="stylesheet" /> -->
+<link type="text/css" href="<?php echo BASE_URL?>/public/css/style.css" rel="stylesheet" />
+<link type="text/css" href="<?php echo BASE_URL?>/public/css/cupertino/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
+
+<!-- ESSENTIALS -->
+<script type="text/javascript">
+    var path_url = '<?=HTTP_ROOT?>';
+    var path_url_api = '<?php echo Fgsl_Session_Namespace::get('server_api');?>';
+    var base_url = '<?=BASE_URL?>';
+    var rest_url_path = '<?php echo Fgsl_Session_Namespace::get('rest_url_path');?>';
+    $(function() {
+      $( "#menuLateral" ).accordion();
+      $( "#accordion" ).accordion();
+      $('input[type=text],input[type=checkbox],select,textarea').addClass("text ui-widget-content ui-corner-all");
+      $('input[type=submit],input[type=button],button').addClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only');
+      $('button').each(function(){
+        var value_button = $(this).html();
+        $(this).html('<span class="ui-button-text">'+value_button+'</span>');
+      });
+    });
+//
+</script>
+
+<style type="text/css">
+  body {
+    margin:0pt;
+    padding:0pt;
+    font-family:verdana, arial, Helvetica, sans-serif;
+    font-size:10pt;
+  }
+
+  table * {
+    //margin:0pt auto;
+    padding:0pt;
+    list-style:none;
+    //border:0pt;
+    //vertical-align:baseline;
+  }
+  /********************/
+  /* WINDOW */
+  #desktop{
+    float:left;
+    display:block;
+    border:1pt red solid;
+    width:1080px;
+  }
+  #header{
+    display:block;
+    height: 60px;
+    background-color: green;
+    border:solid 1pt green;
+  }
+  #menu{
+    float:left;
+    display:block;
+    padding:5px;
+    width: 190px;
+  }
+  #content{
+    float:left;
+    display:block;
+    width: 880px;
+  }
+  #footer{
+    display:block;
+    float:left;
+    width:100%;
+    background:black;
+    color:lightgreen;
+    padding: 20px 0px;
+  }
+  /* FORM */
+  form label, form select, form input, form textarea {
+    width: 100%;
+    display: block;
+  }
+
+  form input[type='checkbox']{
+    width: 20px;
+    float: left;
+  }
+
+  form label{
+    margin-top: 10px;
+  }
+
+  fieldset{
+    border:none;
+  }
+
+  .oneLine{
+    display: block;
+    float: left;
+    width: 100%;
+  }
+
+  .oneLine span{
+    display: block;
+    float: left;
+    margin-bottom: 10px;
+  }
+
+  .oneLine span input{
+    width:95%;
+  }
+
+  .oneLine span select, .oneLine span textarea{
+    width:98%;
+  }
+
+  .fourElements span{
+    width:25%;
+  }
+
+  .threeElements span{
+    width:33%;
+  }
+
+  .twoElements span{
+    width:50%;
+  }
+
+  .oneElements span{
+    width:104%;
+  }
+
+  /*****/
+  .descricao textarea{height:100px}
+</style>
+</head>
+<body>
+
+<?php
+  $template = Fgsl_Session_Namespace::get('template-form');
+  if(!empty($template))
+  {
+    echo $template;
+    Fgsl_Session_Namespace::set('template-form',null);
+  }
+
+  $jsController = Fgsl_Session_Namespace::get('js-controller');
+  if(!empty($jsController))
+  {
+    echo "<script type=\"text/javascript\">\n{$jsController}\n</script>";
+    Fgsl_Session_Namespace::set('js-controller',null);
+  }
+?>
+
+<div id='desktop'>
+  <div id="header">
+    <h4><a href="index/logout">Logout</a></h4>
+  </div>
+  <div id="menu">
+    <div id="menuLateral">
+      <h3><a href="#">Estoque</a></h3>
+      <div>
+          <a href="<?=HTTP_ROOT?>/marca-crud/">Marca</a><br />
+          <a href="<?=HTTP_ROOT?>/unidade-crud/">Unidade</a><br />
+          <a href="<?=HTTP_ROOT?>/produto-crud/">Produto</a>
+      </div>
+      <h3><a href="#">Caixa</a></h3>
+      <div>
+          <a href="<?=HTTP_ROOT?>/movtipo-crud/">Tipo de movimento</a><br />
+          <a href="<?=HTTP_ROOT?>/movhistorico-crud/">Entrada</a><br />
+      </div>
+      <h3><a href="#">Financeiro</a></h3>
+      <div>
+          <a href="<?=HTTP_ROOT?>/lancamento-crud/">Lançamentos</a>
+      </div>
+      <h3><a href="#">Pessoas</a></h3>
+      <div>
+          <a href="<?=HTTP_ROOT?>/pbusiness-crud/">Pessoa Jurídica</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="content">
+    <?=$this->layout()->content?>
+  </div>
+
+  <div id='footer'>
+  <?php
+      $acl = Fgsl_Session_Namespace::get('acl');
+      if($acl)
+        {
+        $roles = $acl->getRoles();
+        var_dump($roles);
+        }
+      else
+        echo("Not Roles");
+  ?>
+  </div>
+</div>
+
+<!-- DIALOG JQUERY UI -->
+<div id="frmDialog">
+  <img src='<?=HTTP_ROOT?>/public/image/package/exclamation.png' />
+  <p><!-- MESSAGE TEXT --></p>
+</div>
+<!-- DIALOG FORMULÁRIO JQUERY UI -->
+<div id="frmForm">
+  <div id='errorResults' style='display:none;float:left;width:90%;background:red;color:white;font-weight:bold;padding:15px;'>Testando</div>
+  <p style='width:100%;display:block;float:left;'><!-- MESSAGE TEXT --></p>
+</div>
+</body>
+</html>

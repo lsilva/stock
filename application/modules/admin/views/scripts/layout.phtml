@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL?>/public/js/jquery-ui-1.8.18.custom.min.js"></script>
+<link type="text/css" href="<?php echo BASE_URL?>/public/css/cupertino/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
+<!-- <link type="text/css" href="<?php echo BASE_URL?>/public/css/jquery.multiselect.filter.css" rel="stylesheet" /> -->
+<link type="text/css" href="<?php echo BASE_URL?>/public/css/style.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    var path_url = '<?=HTTP_ROOT?>';
+</script>
+<style type="text/css">
+body {
+  margin:0pt;
+  padding:0pt;
+  font-family:verdana, arial, Helvetica, sans-serif;
+  font-size:10pt;
+}
+
+table * {
+  //margin:0pt auto;
+  padding:0pt;
+  list-style:none;
+  //border:0pt;
+  //vertical-align:baseline;
+}
+</style>
+</head>
+<body>
+<div id='errorResults' style='display:block;float:left;width:100%;background:red;color:white;font-weight:bold;padding:15px;margin:10px;'>
+<?php
+	echo Fgsl_Session_Namespace::get('mensagem');
+	Fgsl_Session_Namespace::set('mensagem','');
+?>
+
+</div>
+<div style="float:left;display:block;border:1pt red solid;">
+  <h4><a href="index/logout">Logout</a></h4>
+  <h4>Menu administrativo</h4>
+  <ul>
+    <li><a href="<?=HTTP_ROOT?>/papel-crud/">Cadastro Papeis</a></li>
+    <li><a href="<?=HTTP_ROOT?>/papel-funcionario/">Papéis de usuários</a></li>
+    <li><a href="<?=HTTP_ROOT?>/acesso-crud/">Cadastro Recursos</a></li>
+    <li><a href="<?=HTTP_ROOT?>/acesso-papel/">Acessos de um Papel</a></li>
+  </ul>
+</div>
+<div id="content" style="float:left;display:block;border:1pt green solid;padding:15px;">
+  <?=$this->layout()->content?>
+</div>
+<div id='testResults' style='display:block;float:left;width:100%;background:black;color:lightgreen;padding:15px;margin:10px;'>
+<?php
+		$acl = Fgsl_Session_Namespace::get('acl');
+		if($acl)
+			{
+			$roles = $acl->getRoles();
+			var_dump($roles);
+			}
+		else
+			echo("Not Roles");
+?>
+</div>
+<script type="text/javascript">
+$(function(){
+ $("#mrc_id").multiselect();
+});
+</script>
+</body>
+</html>

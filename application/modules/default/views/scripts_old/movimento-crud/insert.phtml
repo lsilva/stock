@@ -1,0 +1,343 @@
+
+<h1><?=$this->title?></h1>
+<?php
+$form = $this->form2;
+$formProduto = $this->formProduto;
+$html = '<form enctype="'.$form->getEnctype().'" action="'.$form->getAction().'" method="'.$form->getMethod().'"';
+$html.= 'name="'.$form->getName().'" id="'.$form->getName().'">';
+$html.= $form->mov_id;
+$html.= $form->cli_id;
+$html.= '	<table border="0" style="float:left;display:block;max-width:1000px">';
+
+$html.= ' 	<tr>';
+$html.= '			<td colspan="100%">';
+$html.= '				<input type="hidden" id="action" name="action" value="'.$this->action.'" />';
+$html.=         $form->pro_lista;
+$html.= '				<div id="button" class="salvar" onclick="preSave();sendAction(this,\'submit\',true)"></div>';
+$html.= '				<div id="button" class="voltar" onclick="sendAction(this,\'back\')"></div>';
+$html.= '			</td>';
+$html.= ' 	</tr>';
+
+$cliente = ($this->tipo == 'ent' ? 'Fornecedor' : 'Cliente');
+$html.= ' 	<tr>';
+$html.= '			<td><dt><label>'.$cliente.'</label></dt><dd><input type="text" name="cli_nome" id="cli_nome" maxlength="512" required="true" title="'.$cliente.'"></dd></td>';
+$html.= '			<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/cliente-crud/insert\',\'Inserir Cliente\')"></div></td>';
+$html.= '			<td width="20px"><div id="minButton" class="visualizar"></div></td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= ' 		<td colspan="100%">';
+$html.= ' 			<table width="100%">';
+if($this->tipo == 'ent')
+  {
+  $html.= ' 				</tr>';
+  $html.= '						<td>'.$form->mov_sequencia.'</td>';
+  $html.= '						<td>'.$form->mov_data.'</td>';
+  $html.= '						<td>'.$form->tmov_codigo.'</td>';
+  $html.= '						<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/tipomov-crud/insert\',\'Inserir Tipo de movimento\')"></div></td>';
+  $html.= '						<td width="20px"><div id="minButton" class="visualizar"></div></td>';
+  $html.= ' 				</tr>';
+  }
+$el = $form->est_codigo;
+$html.= ' 				</tr>';
+$html.= '						<td width="190px">&nbsp;</td>';
+$html.= '						<td width="190px">';
+if($this->tipo == 'ent')$text = $form->est_codigo;
+else $text = '&nbsp;';
+$html.=             $text.'</td>';
+$html.= '						<td>'.$form->pgt_codigo.'</td>';
+$html.= '						<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/pagamentoforma-crud/insert\',\'Inserir Forma de pagamento\')"></div></td>';
+$html.= '						<td width="20px"><div id="minButton" class="visualizar"></div></td>';
+$html.= ' 				</tr>';
+
+$html.= ' 			</table>';
+$html.= ' 		</td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td colspan="100%"><hr /></td>';
+$html.= ' 	</tr>';
+
+if($this->tipo !== 'ent')
+  {
+  $formProduto->pro_vlvenda->setAttrib('disabled','disabled');
+  $formProduto->pro_vlvenda->setAttrib('required','false');
+  }
+
+$formProduto->mrc_id->setAttrib('disabled','disabled');
+$formProduto->mrc_id->setAttrib('required','false');
+$formProduto->pro_nome->setAttrib('required','false');
+
+$html.= ' 	<tr>';
+$html.= '			<td>'.$formProduto->pro_nome.'</td>';
+$html.= '			<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/produto-crud/insert\',\'Inserir produto\')"></div></td>';
+$html.= '			<td width="20px"><div id="minButton" class="visualizar"></div></td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr><td colspan="100%">';
+$html.= ' 		<table width="100%" border="1">';
+$html.= ' 			<tr>';
+$html.= '						<td><dt><label>Quantidade</label></dt><dd><input type="text" name="pro_qtde" id="pro_qtde" value="1" maxlength="512" required="true" title="Quantidade"></dd></td>';
+$html.= '						<td>'.$formProduto->pro_vlvenda.'</td>';
+$html.= '						<td><dt><label>Valor Total</label></dt><dd><input type="text" name="pro_vltotal" id="pro_vltotal" value="0,00" title="Valor Total" disabled="disabled" style="text-align:right"></dd></td>';
+$html.= '						<td>'.$formProduto->mrc_id.'</td>';
+$html.= ' 			</tr>';
+$html.= ' 		</table>';
+$html.= ' 	</td></tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td colspan="100%">
+            		<div id="container">
+            			<b class="rtop">
+            			<b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"></b>
+            			</b>
+                  <p><a href="#" id="add_lista">Incluir na lista</a></p>
+            			<b class="rbottom">
+            			<b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
+            			</b>
+            		</div>
+            </td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td colspan="100%"><div name="tblItem" id="tblItem">';
+$html.= '				<table border="1" width="100%" id="tblProdutos">';
+$html.= '					<tr>';
+$html.= '						<td>Nome</td>';
+$html.= '						<td>Marca</td>';
+$html.= '						<td>Qtde</td>';
+$html.= '						<td>Valor Unit.</td>';
+$html.= '						<td>Valor Total</td>';
+$html.= '						<td>Opções</td>';
+$html.= '					</tr>';
+$html.= '				</table>';
+$html.= '			</div></td>';
+$html.= ' 	</tr>';
+/*
+$html.= ' 	<tr><td colspan="100%">';
+$html.= '			<table width="100%"><tr>';
+$html.= '				<td colspan="100%">'.$form->mrc_id.'</td>';
+$html.= '				<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/marca-crud/insert\',\'Inserir Marca\')"></div></td>';
+$html.= '			</tr></table>';
+$html.= ' 	</td></tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td>'.$form->pro_vlvenda.'</td>';
+$html.= '			<td>'.$form->pro_descontomax.'</td>';
+$html.= '			<td>'.$form->pro_custoatual.'</td>';
+$html.= '			<td>'.$form->pro_customedio.'</td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td>'.$form->pro_estoqueqtd.'</td>';
+$html.= '			<td>'.$form->pro_estoqueale.'</td>';
+$html.= '			<td>'.$form->pro_estoquemin.'</td>';
+$html.= '			<td><table width="100%"><tr>';
+$html.= '				<td>'.$form->pro_estoqueres.'</td>';
+$html.= '				<td width="20px"><div id="minButton" class="visualizar"></div></td>';
+$html.= '			</tr></table></td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td>'.$form->pro_peso.'</td>';
+$html.= '			<td>'.$form->pro_volume.'</td>';
+$html.= '			<td colspan="100%"><table width="100%"><tr>';
+$html.= '				<td colspan="2">'.$form->und_id.'</td>';
+$html.= '				<td width="20px"><div id="minButton" class="adicionar" onClick="openWindow(\''.BASE_URL.'/default/unidade-crud/insert\',\'Inserir Unidade\')"></div></td>';
+$html.= '			</tr></table></td>';
+$html.= ' 	</tr>';
+
+$html.= ' 	<tr>';
+$html.= '			<td colspan="2">'.$form->pro_descricao.'</td>';
+$html.= '			<td colspan="2">'.$form->pro_imagem.'</td>';
+$html.= ' 	</tr>';
+*/
+$html.= '	 </table>';
+$html.= '</form>';
+
+$html.= '<script type="text/javascript">
+           $("#pro_qtde").blur(function(){
+						var vl_venda = $("#pro_vlvenda").val();
+    				vl_venda = vl_venda.replace(/\./g,"");
+    				vl_venda = vl_venda.replace(/,/g,".");
+    				var valor = ($("#pro_qtde").val() * vl_venda).formatMoney(2, ",", ".");
+    				$("#pro_vltotal").val(valor.toString());
+    			});
+
+          $(document).ready(function(){
+            $("#pro_nome").autocomplete(
+            {
+              source: path_url+"/produto-crud/getnome",
+              minLength: 2,
+              focus: function(event, ui){
+              	$("#pro_vltotal").val((0).formatMoney(2, ",", ".").toString());
+              	$("#pro_qtde").val("1");
+              	$("#pro_vlvenda").val((0).formatMoney(2, ",", ".").toString());
+              	},
+              select: function(event, ui) {
+              	$("#pro_nome").attr("selector",ui.item.value2);
+              	$("#mrc_id").val(ui.item.marca);
+              	$("#pro_vlvenda").val(parseFloat(ui.item.vlvenda).formatMoney(2, ",", "."));
+              	$("#pro_vltotal").val(parseFloat(ui.item.vlvenda).formatMoney(2, ",", "."));
+              	}
+            });
+            $("#cli_nome").autocomplete(
+            {
+              source: path_url+"/cliente-crud/getnome",
+              minLength: 3,
+              select: function(event, ui) {
+              	$("#cli_id").val(ui.item.id);
+              	}
+            });
+          });
+
+          $("#add_lista").click(function(){
+          	if($("#pro_nome").val() === "" || $("#pro_nome").val() === null)
+          		return;
+
+          	var nroTrs = $("#tblProdutos tr").length;
+          	var jahExiste = false;
+      			$("#tblProdutos tr td").each(function(){
+      				if($(this).attr("id") == "td1")
+      					if(!jahExiste && $("#pro_nome").val() == $(this).html())
+      						jahExiste = true;
+      			});
+
+      			var produto = $("#pro_nome").val();
+          	$("#pro_nome").val("");
+      			if(jahExiste) return;
+
+          	var tr = $("<tr id=\'tr" + nroTrs +"\'>");
+          	tr.attr("class","edit_tr");
+          	tr.attr("data", $("#pro_nome").attr("selector"));
+
+          	if($("#pro_qtde").val() == "")
+          		$("#pro_qtde").val("1");
+
+          	var img = $("<img src=\''.BASE_URL.'/public/image/delete.gif\'>");
+          	var nome = $("<td id=\'td1\'>");
+          	var marca = $("<td id=\'td2\'>");
+          	var qtde = $("<td id=\'td3\'>");
+          	var vlUnitario = $("<td class=\'td4\'>");
+          	var vlTotal = $("<td class=\'td5\'>");
+          	qtde.css("textAlign","right");
+          	vlUnitario.css("textAlign","right");
+          	vlTotal.css("textAlign","right");
+          	';
+
+if($this->tipo == 'ent')
+  {
+  $html.= '
+          	var vlInputEdit = $("<input type=\'text\' class=\'editbox\' id=\'td4_input_" + tr.attr("data") + "\' value=\'" + $("#pro_vlvenda").val() + "\'>");
+          	var vlSpanEdit = $("<span class=\'text\' id=\'td4_span_" + tr.attr("data") + "\'>");
+						vlInputEdit.hide();
+
+						vlSpanEdit.html($("#pro_vlvenda").val());
+						vlUnitario.append(vlInputEdit);
+						vlUnitario.append(vlSpanEdit);
+						vlUnitario.click(function(){
+							$("#td4_input_" + tr.attr("data")).show();
+							$("#td4_span_" + tr.attr("data")).hide();
+						});
+
+						vlInputEdit.bind("keypress",function(){mascara(this,money)});
+						vlInputEdit.css("textAlign","right");
+						vlInputEdit.bind("blur",function(){
+							var valor = this.value;
+  						$("#td4_input_" + tr.attr("data")).val(valor);
+  						$("#td4_span_" + tr.attr("data")).html(valor);
+
+	    				valor = valor.replace(/\./g,"");
+    					valor = valor.replace(/,/g,".");
+							$(this).parent().parent().find("td.td5").html(($("#td3_span_" + tr.attr("data")).html() * valor).formatMoney(2, ",", "."));
+
+          		$("#td4_input_" + tr.attr("data")).hide();
+          		$("#td4_span_" + tr.attr("data")).show();
+						});
+    			';
+  }
+else
+  $html.='vlUnitario = vlUnitario.html($("#pro_vlvenda").val());';
+
+$html.='   	var qtdeInputEdit = $("<input type=\'text\' class=\'editbox\' id=\'td3_input_" + tr.attr("data") + "\' value=\'" + $("#pro_qtde").val() + "\'>");
+          	var qtdeSpanEdit = $("<span class=\'text\' id=\'td3_span_" + tr.attr("data") + "\'>");
+          	var opcoes = $("<td id=\'td4\'>").css("text-align","center");
+          	var edit = $("<a href=\'#\'>");
+          	var delet = $("<a href=\'#\'>").click(function(){$("#tr" + nroTrs).remove();});
+
+						qtdeInputEdit.hide();
+						qtdeInputEdit.bind("change",function(){
+							var valor;
+							if(!(valor = $("#td4_span_" + tr.attr("data")).html()))
+								valor = $(this).parent().parent().find("td.td4").html();
+	    				valor = valor.replace(/\./g,"");
+    					valor = valor.replace(/,/g,".");
+							$(this).parent().parent().find("td.td5").html((this.value * valor).formatMoney(2, ",", "."));
+						});
+
+						qtdeSpanEdit.html($("#pro_qtde").val());
+						qtde.append(qtdeInputEdit);
+						qtde.append(qtdeSpanEdit);
+						qtde.click(function(){
+							$("#td3_input_" + tr.attr("data")).show();
+							$("#td3_span_" + tr.attr("data")).hide();
+						});
+
+						// Outside click action
+          	$(document).mouseup(function(){
+          		$("#td3_input_" + tr.attr("data")).hide();
+          		$("#td3_span_" + tr.attr("data")).show();
+							var valor = $("#td3_input_" + tr.attr("data")).val();
+							if(isNaN(valor) || valor == "" || valor == 0) valor = 1;
+							$("#td3_input_" + tr.attr("data")).val(valor);
+							$("#td3_span_" + tr.attr("data")).html(valor);
+						});
+
+          	nome.attr("class","edit_td");
+          	marca.attr("class","edit_td");
+          	qtde.attr("class","edit_td");
+          	opcoes.attr("class","edit_td");
+          	$("#tblProdutos").append(tr.append(nome.html(produto)));
+          	$("#tblProdutos").append(tr.append(marca.html($("#mrc_id option:selected").html())));
+          	$("#tblProdutos").append(tr.append(qtde));
+          	$("#tblProdutos").append(tr.append(vlUnitario));
+          	$("#tblProdutos").append(tr.append(vlTotal.html($("#pro_vltotal").val())));
+          	$("#tblProdutos").append(tr.append(opcoes.append(delet.append(img))));
+
+          	$("#pro_qtde").val("1");
+          	$("#mrc_id").val("");
+          	$("#pro_vltotal").val((0).formatMoney(2, ",", ".").toString());
+          	$("#pro_qtde").val("1");
+          	$("#pro_vlvenda").val((0).formatMoney(2, ",", ".").toString());
+            });
+
+function preSave()
+  {
+  $("#pro_lista").val("");
+	$("#tblProdutos tr").each(function(){
+		var id = $(this).attr("data");
+		if(empty(id)) return;
+		var arrValue = new Array();
+
+		if(!(vl_unitario = $("#td4_span_" + id).html()))
+			vl_unitario = $(this).find("td.td4").html();
+
+		var json_string = \'[{"id":"\'+ id +
+											\'","vl_unitario":"\'+ vl_unitario.replace(/\./g,"").replace(/,/g,".") +
+											\'","vl_total":"\'+ $(this).find("td.td5").html().replace(/\./g,"").replace(/,/g,".") +
+											\'","qtde":"\'+ $(this).find("input.editbox").val() +
+											\'"}]\';
+		var arrValues = $.parseJSON(json_string);
+		var str = $("#pro_lista").val();
+		if(!empty(str))
+			{
+			var arrSerialize = $.parseJSON(str);
+			for(i in arrSerialize)
+  			arrValues.push(arrSerialize[i]);
+			}
+		$("#pro_lista").val(JSON.stringify(arrValues));
+		});
+  }
+</script>';
+echo($html);
+?>
