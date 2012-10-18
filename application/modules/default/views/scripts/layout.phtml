@@ -153,6 +153,13 @@
     echo "<script type=\"text/javascript\">\n{$jsController}\n</script>";
     Fgsl_Session_Namespace::set('js-controller',null);
   }
+
+  $title_page = Fgsl_Session_Namespace::get('title_page');
+  if(!empty($title_page))
+  {
+    $title_page = "<h1 id=\"title-page\">{$title_page}</h1>";
+    Fgsl_Session_Namespace::set('title_page',null);
+  }
 ?>
 
 <div id='desktop'>
@@ -183,7 +190,8 @@
     </div>
   </div>
 
-  <div id="content">
+  <div id="content" class="ui-widget">
+    <?=$title_page?>
     <?=$this->layout()->content?>
   </div>
 

@@ -19,6 +19,8 @@ class AbstractController extends Fgsl_Crud_Controller_Abstract
         $js_controller = PUBLIC_PATH . "/js/controller/" . $this->getRequest()->getControllerName() . ".js";
         if(file_exists($js_controller))
             Fgsl_Session_Namespace::set('js-controller',file_get_contents($js_controller));
+
+        $this->getTitle();
     }
 
     public function indexAction()
@@ -33,6 +35,18 @@ class AbstractController extends Fgsl_Crud_Controller_Abstract
         $this->view->assign('tabela', $this->getTable($response));
         $this->view->assign('translate', $this->translate);
         $this->_response->setBody($this->view->render($this->_controllerAction.'/list.phtml'));
+    }
+
+    public function getTitle()
+    {
+        $response = '';
+        try
+        {
+            $response = Zend_Json::decode($this->exeCurl($this->_rest_url."title"));
+            if(!empty($response['title']))
+                Fgsl_Session_Namespace::set('title_page',$response['title']);
+        }
+        catch(Exception $e ){}
     }
 
     public function insertAction()

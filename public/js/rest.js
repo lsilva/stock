@@ -112,7 +112,7 @@ function displayMessageError(message)
     if($('#errorResults').parent().is(':visible'))
     {
         $('#errorResults').show(1000);
-        $('#errorResults').html(message);
+        $('#errorResults').html(message);5
     }
     else
         dialog("error","ERROR",message);
@@ -163,7 +163,9 @@ function dialogForm(title,message,buttons,width)
                 formPostDisplay();
         }
     });
-    dialog.dialog({resizable: true, modal: true, buttons: buttons, width: width});
+
+    var titleDialog = ($('#title-page') ? $('#title-page').html() : '');
+    dialog.dialog({resizable: true, modal: true, buttons: buttons, width: width, title: titleDialog});
     dialog.dialog('open');
 }
 
@@ -224,10 +226,8 @@ function mountForm(dataReturn, status)
 
         element = Utf8.decode(decodeEntities(elements));
         for(i in translation)
-            {
-            console.log(translation[i] + " , " + i);
             element = element.replace(translation[i] , i);
-            }
+
         element = $( element );
         var isCheckbox = (element.attr('type') == 'checkbox');
         //Não insere elemento de botão, pois a tela já conterá os mesmos
