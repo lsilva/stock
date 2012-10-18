@@ -52,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$filterURL = new Zend_Filter_Input(null,null,$_GET);
 		$filterURL->setDefaultEscapeFilter('StripTags');
 		Fgsl_Session_Namespace::set('get',$filterURL);
-		Fgsl_Session_Namespace::set('server_api','http://api.stockmulti.com');
+		Fgsl_Session_Namespace::set('server_api','http://stockmulti.com/api');
 		Fgsl_Session_Namespace::set('ROUTE_RULER', new RouteRuler());
 	}
 }
