@@ -49,7 +49,6 @@ class IndexController extends Zend_Controller_Action
 			//die(WebUser::encrypt($post->web_pass));
 			$authAdapter->setCredential(WebUser::encrypt($post->web_pass));
 			$resultado = $authAdapter->authenticate();
-
 			if ($resultado->isValid())
 			{
 				$dataAuth = $authAdapter->getResultRowObject(null,'web_pass');

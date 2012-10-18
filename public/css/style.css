@@ -1,0 +1,42 @@
+/* Table editable */
+.editbox{
+	font-size:12px;
+	width:100%;
+	heigth:17px;
+	background-color:#ffffcc;
+	border:solid 1px blue;
+}
+.edit_tr:hover{
+	cursor:pointer;
+}
+/* Botões */
+dd{
+  padding:0px;
+  margin:0px 2px;
+}
+dd input[text],select{width: 100%;}
+dd select{width: 100%;}
+dt{
+  padding:0px 5px;
+  margin:0px 2px;
+}
+dt *{width: 99%;}
+dd *{width: 99%;}
+#button{margin:0px 10px;display:block;height:26px;width:91px;float:left;}
+#button:hover, #minButton:hover{cursor: hand;cursor: pointer;}
+.voltar{background-image:url('/public/image/voltar.gif');}
+.salvar{background-image:url('/public/image/salvar.gif');}
+#minButton{margin:0px;margin-top:20px;margin-left:2px;display:block;height:17px;width:17px;float:left;}
+.adicionar{background-image:url('/public/image/adicionar.gif');}
+.visualizar{background-image:url('/public/image/visualizar.gif');}
+.add_lista{background-image:url('/public/image/adicionar_lista.gif');}
+
+/* Botão provisório */
+#container{display:block;height:10pt;width:100pt;margin:0px auto;padding-bottom:13pt;}
+#container p{display:block;height:100%;background-color:lightgreen;margin-top:0pt;margin-bottom:0pt;padding:5px;}
+.rtop, .rbottom{display:block}
+.rtop *, .rbottom *{display: block; height: 1px; overflow: hidden;background-color:lightgreen;}
+.r1{margin: 0 5px}
+.r2{margin: 0 3px}
+.r3{margin: 0 2px}
+.r4{margin: 0 1px;}

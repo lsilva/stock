@@ -24,7 +24,7 @@ defined('APPLICATION_ENV')
 
 // Define o endereço do site
 defined('HTTP_ROOT')
-    || define('HTTP_ROOT',"http://".$_SERVER["HTTP_HOST"]."/private/stock");
+    || define('HTTP_ROOT',"http://".$_SERVER["HTTP_HOST"]);
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(

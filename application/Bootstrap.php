@@ -15,7 +15,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$resource = $this->getPluginResource('db');
 		$db = $resource->getDbAdapter();
 		Zend_Registry::set('db',$db);
-		// set up translation adapter    
+		// set up translation adapter
 		$translate = new Zend_Translate('array', LANGUAGE_PATH, null, array('scan' => Zend_Translate::LOCALE_FILENAME));
         $writer = new Zend_Log_Writer_Stream( LOG_PATH . '/not_translate.log');
         $log    = new Zend_Log($writer);
@@ -26,7 +26,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     'logUntranslated' => true
                 )
             );
-		$translate->setLocale('pt_BR');		
+		$translate->setLocale('pt_BR');
 		Zend_Registry::set('translate',$translate);
 	}
 
@@ -52,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$filterURL = new Zend_Filter_Input(null,null,$_GET);
 		$filterURL->setDefaultEscapeFilter('StripTags');
 		Fgsl_Session_Namespace::set('get',$filterURL);
-		Fgsl_Session_Namespace::set('server_api','http://192.168.2.132/private/api');
+		Fgsl_Session_Namespace::set('server_api','http://api.stockmulti.com');
 		Fgsl_Session_Namespace::set('ROUTE_RULER', new RouteRuler());
 	}
 }
