@@ -1,4 +1,4 @@
-var formPostDisplay = function(){
+var formAfterDisplay = function(){
     sendRequest('GET', path_url_api + '/movimento-item/', null, function(data){
         console.log(data);
         var table = $('#tblProdutos');
@@ -16,5 +16,35 @@ var formPostDisplay = function(){
             rows.find('.total').html(data[i].valor * data[i].quantidade);
             table.append(rows);
             }
+        //Preenche campo da pessoa
+        getPersonaFields($('#persona'));
     });
 };
+
+var getPersonaFields = function(output){
+    sendRequest('GET', path_url_api + '/persona-business/form/', null, function(data){
+        template = $( '<div>' ).append($('script#form-template-pbusiness').html());
+        output.append(getMergeTemplate(template,data));
+    });
+}
+/* TODO: essa função deve ser generalizada para ser utilizada na função mountForm */
+var getMergeTemplate = function(template, elements)
+{
+    for(i in elements)
+    {
+        var objectReturn = getObjectToJSON(elements[i]);
+        var element = objectReturn.element;
+        var label = objectReturn.label;
+        if(!element) continue;
+
+        template.find('span').each(function(){
+            if($(this).attr('class') == element.attr('id'))
+                {
+                if(label) $(this).append(label);
+                $(this).append(element);
+                }
+            });
+
+    }
+    return template;
+}
