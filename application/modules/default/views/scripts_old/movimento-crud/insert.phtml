@@ -180,7 +180,7 @@ $html.= '<script type="text/javascript">
               	$("#pro_vlvenda").val(parseFloat(ui.item.vlvenda).formatMoney(2, ",", "."));
               	$("#pro_vltotal").val(parseFloat(ui.item.vlvenda).formatMoney(2, ",", "."));
               	}
-            });
+            });//
             $("#cli_nome").autocomplete(
             {
               source: path_url+"/cliente-crud/getnome",

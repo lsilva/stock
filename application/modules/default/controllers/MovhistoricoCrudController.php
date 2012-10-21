@@ -22,6 +22,7 @@ class MovhistoricoCrudController extends AbstractController
             <script type='text/x-form-template' id='form-template'>
                 <fieldset style='width: 800px;'>
                     <span class='id'></span>
+                    <span class='cliente'></span>
                     <fieldset class='frame-panel'>
                         <legend>". $this->translate->translate('Informações sobre a nota') . "</legend>
                         <span class='oneLine threeElements'>
@@ -62,6 +63,7 @@ class MovhistoricoCrudController extends AbstractController
                 </td>
             </script>
             <script type='text/x-form-template' id='form-template-pbusiness'>
+                <span class='id'></span>
                 <fieldset class='frame-panel'>
                     <legend>". $this->translate->translate('Informações sobre o cliente / fornecedor') . "</legend>
                     <span class='oneLine twoElements'>

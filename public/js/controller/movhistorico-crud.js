@@ -18,7 +18,21 @@ var formAfterDisplay = function(){
             }
         //Preenche campo da pessoa
         getPersonaFields($('#persona'));
+
     });
+
+    setTimeout(function(){
+        $("#fantasia").autocomplete({
+            source: path_url_api + '/persona-business/autosuggest/',
+            minLength: 3,
+            select: function(event, ui) {
+                console.log(ui.item);
+                $("#cliente").val(ui.item.id);
+                $("#cnpj").val(ui.item.cnpj);
+            }
+        });
+      $('#dots').append('.');
+    }, 1000);
 };
 
 var getPersonaFields = function(output){
@@ -26,6 +40,8 @@ var getPersonaFields = function(output){
         template = $( '<div>' ).append($('script#form-template-pbusiness').html());
         output.append(getMergeTemplate(template,data));
     });
+/*
+*/
 }
 /* TODO: essa função deve ser generalizada para ser utilizada na função mountForm */
 var getMergeTemplate = function(template, elements)
