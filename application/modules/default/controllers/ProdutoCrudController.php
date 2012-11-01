@@ -22,32 +22,32 @@ class ProdutoCrudController extends AbstractController
               <fieldset style='width: 800px;'>
                 <span class='id'></span>
                 <span class='oneLine oneElements'>
-                  <span class='nome'></span>
+                  <span class='prd_nome'></span>
                 </span>
                 <span class='oneLine fourElements'>
-                  <span class='marca_id'></span>
-                  <span class='unidade_id'></span>
-                  <span class='quantidade_total'></span>
+                  <span class='prd_marca_id'></span>
+                  <span class='prd_unidade_id'></span>
+                  <span class='prd_quantidade_total'></span>
                 </span>
                 <span class='oneLine fourElements'>
-                  <span class='valor_venda'></span>
-                  <span class='desconto_maximo'></span>
-                  <span class='custo_atual'></span>
-                  <span class='custo_medio'></span>
+                  <span class='prd_valor_venda'></span>
+                  <span class='prd_desconto_maximo'></span>
+                  <span class='prd_custo_atual'></span>
+                  <span class='prd_custo_medio'></span>
                 </span>
                 <span class='oneLine fourElements'>
-                  <span class='peso'></span>
-                  <span class='volume'></span>
+                  <span class='prd_peso'></span>
+                  <span class='prd_volume'></span>
                 </span>
                 <span class='oneLine fourElements'>
-                  <span class='estoque_quantidade'></span>
-                  <span class='estoque_alerta'></span>
-                  <span class='estoque_minimo'></span>
-                  <span class='estoque_reserva'></span>
+                  <span class='prd_estoque_quantidade'></span>
+                  <span class='prd_estoque_alerta'></span>
+                  <span class='prd_estoque_minimo'></span>
+                  <span class='prd_estoque_reserva'></span>
                 </span>
                 <span class='oneLine twoElements'>
-                  <span class='descricao'></span>
-                  <span class='imagem'></span>
+                  <span class='prd_descricao'></span>
+                  <span class='prd_imagem'></span>
                 </span>
               </fieldset>
             </script>

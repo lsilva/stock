@@ -43,8 +43,6 @@ $(function(){
 var formToEdit = function (page, status){
     var action_link = page;
     var id = action_link.match(/[0-9]*$/);
-console.log(id);
-console.log(action_link);
     var action = rest_url_path + "form/" + id[0];
     sendRequest("GET", action, null, function(data){
         mountForm(data,status)
@@ -69,22 +67,24 @@ var formSubmit = function(element){
     var idForm = formulario.find('#id').val();
     if(typeof idForm=="undefined")
         idForm = "";
+
     formulario.find('input, textarea, select').each(function() {
         var value = ($(this).attr('type') !== 'checkbox' ? $(this).val() : ($(this).is(":checked") ? 1 : 0));
         data[$(this).attr('name')] = value;
     });
-console.log(data);
+
     sendRequest(methodForm,actionForm,data,function(data){
+        if( typeof(afterRequest) == 'function' )
+            afterRequest(data);
+
         $(location).attr('href',url);
     });
-
 
     return false;
 };
 
 function sendRequest(type,url,data,callback)
 {
-    console.log(type,data,url);
     $.ajax({
         url: url,
         type: type,
@@ -96,12 +96,12 @@ function sendRequest(type,url,data,callback)
     .done(callback)
     .fail(function(jqXHR, textStatus) {
         var response = jqXHR.responseText;
-        console.log(response);
         if(response.length > 0)
         {
             response = JSON.parse(response);
             var message = response.message;
         }
+
         displayMessageError(message);
     });
 }
@@ -111,7 +111,7 @@ function displayMessageError(message)
     if($('#errorResults').parent().is(':visible'))
     {
         $('#errorResults').show(1000);
-        $('#errorResults').html(message);5
+        $('#errorResults').html(message);
     }
     else
         dialog("error","ERROR",message);
@@ -124,6 +124,7 @@ function dialog(type,title,message,buttons)
     //Seta um valor default se o type passado não for suportado
     if(!inArray(type,typesAccepts))
         type = 'information';
+
     dialog.attr('title',title);
     dialog.find('img').attr('src',base_url + '/public/image/package/' + type + '.png');
     dialog.find('p').html(message);
@@ -199,10 +200,8 @@ function mountForm(dataReturn, status)
                     $(this).show();
             });
         };
-    buttons.Confirmar = function() { $('#' + name_form).submit(formSubmit($(this)))},
+    buttons.Confirmar = function() { $('#' + name_form).submit( formSubmit( $(this) ) )},
     buttons.Cancel = function() {$( this ).dialog( "close" )};
-
-    console.log(dataReturn);
     //Cria o elemento do formulário
     var form = $( '<form action="' + rest_url_path + '" method="' + method + '" id="' + name_form + '">' );
     var recipiente = form;

@@ -17,6 +17,14 @@ function inArray(needle, haystack) {
     return false;
 }
 
+function var_dump(obj) {
+   if(typeof obj == "object") {
+      return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "")+"\nValue: " + obj;
+   } else {
+      return "Type: "+typeof(obj)+"\nValue: "+obj;
+   }
+}//end function var_dump
+
 function get_html_translation_table (table, quote_style) {
   // http://kevin.vanzonneveld.net
   // +   original by: Philip Peterson
