@@ -74,6 +74,10 @@ var removeRequiredFields = function()
 
 var addProductInTable = function()
 {
+    //Verifica se não existe produto selecionado
+    if(isEmpty($('#prd_nome').val()))
+        return false;
+
     addTDProduct(
         $('#prd_nome').val(),
         $('#prd_id').val(),
@@ -144,24 +148,44 @@ var addTDProduct = function(nome, id, qtde, valor, item_id)
     table = $('#tblProdutos');
     if($('#tblProdutos tr').filter('.prd_id_' + id).length)
     {
-        console.log('REPLACE CODE WHERE');
+        var buttons = {
+                "Confirmar": function() {
+                    $('#tblProdutos tr').filter('.prd_id_' + id).remove();
+                    addTDProduct(nome, id, qtde, valor, item_id);
+                    totalizaTable();
+                    $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            };
+        dialog("error","ERROR","Este produto já foi adicionado, deseja subistitui-lo?",buttons);
     }
     else
     {
-        console.log('NEW CODE WHERE');
         rows = $( '<tr class="prd_id_' + id + '">' ).append($('script#tbl-produto-template').html());
         rows.find('td').each(function(){
             if($(this).attr('class') == 'nome') $(this).html(nome);
             if($(this).attr('class') == 'qtde') $(this).html(qtde);
-            if($(this).attr('class') == 'valor') $(this).html(valor);
+            if($(this).attr('class') == 'valor') $(this).html( mask_money( valor ) );
             });
         table.append(rows);
     }
     //
     $('#tblProdutos tr td').filter('.opcoes').find('.delete').bind('click',function(){
         //TODO: Colocar dialog para solicitar confirmação
-        $(this).parent().parent().remove();
-        totalizaTable();
+        var line = $(this).parent().parent();
+        var buttons = {
+                "Confirmar": function() {
+                    line.remove();
+                    totalizaTable();
+                    $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            };
+        dialog("error","ERROR","Deseja excluir o produto?",buttons);
     });
 }
 
@@ -183,7 +207,12 @@ function appendImage(element,type,callback)
 }
 
 var getPersonaFields = function(output){
-    sendRequest('GET', path_url_api + '/persona-business/form/', null, function(data){
+    var url = path_url_api + '/persona-business/form/';
+    var cliente = $('#mvh_cliente').val();
+    if(!isEmpty(cliente))
+        url = url + cliente;
+
+    sendRequest('GET', url, null, function(data){
         template = $( '<div>' ).append($('script#form-template-pbusiness').html());
         output.append(getMergeTemplate(template,data));
     });

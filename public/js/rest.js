@@ -272,6 +272,13 @@ var getObjectToJSON = function(jsonElement)
     var object = {};
     element = Utf8.decode(decodeEntities(jsonElement));
     var translation = get_html_translation_table('HTML_SPECIALCHARS');
+
+console.log(isEmpty(element));
+console.log(element);
+
+    if(isEmpty(element))
+        return object;
+
     for(i in translation)
         element = element.replace(translation[i] , i);
 

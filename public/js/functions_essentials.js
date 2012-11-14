@@ -17,6 +17,21 @@ function inArray(needle, haystack) {
     return false;
 }
 
+// Verifica se o objeto passado está vazio
+var isEmpty = function(ob){
+  if(typeof(ob) == "object" && ob == null)
+      return true;
+
+  if(typeof ob == "object")
+      for(var i in ob)
+          return false;
+
+  if (!(typeof ob == "null" || typeof ob == "undefined" || ob == 0 || ob == "0"))
+      return false;
+
+  return true;
+}
+
 function var_dump(obj) {
    if(typeof obj == "object") {
       return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "")+"\nValue: " + obj;
@@ -268,6 +283,9 @@ var Utf8 = {
         var string = "";
         var i = 0;
         var c = c1 = c2 = 0;
+
+        if(!utftext)
+          return utftext;
 
         while ( i < utftext.length ) {
 

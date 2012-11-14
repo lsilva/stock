@@ -143,6 +143,33 @@ function mascara(o,f)
     setTimeout("execmascara(v_fun,v_obj)",1)
 }
 
+function mask_format_number(num, decimals)
+{
+    var search = num.search(/\./);
+    // decimals == 0 && num == 0
+    if(search == -1 && decimals == 0)
+        return num;
+
+    var len = num.length;
+    var pos = len - 1;
+    // decimals > 0 && ( num == 0. || num == 0 )
+    if(decimals > 0 && (search == pos || search == -1) )
+        return (search == -1 ?
+            num + '.' + str_repeat('0', decimals) :
+            num + str_repeat('0', decimals));
+
+    // num == 0.00 && decimals == 2
+    if(pos - search == decimals)
+        return num;
+
+    // num == 0.00 && decimals > 2
+    if(pos - search < decimals)
+        return num + str_repeat('0', ((pos - search - decimals) * -1));
+
+    // num == 0.00000 && decimals < 5
+    return num.substr(0,(search + decimals + 1));
+}
+
 function execmascara(v_fun,v_obj)
 {
     eval("v_obj.value=mask_"+v_fun+"(v_obj.value)");
